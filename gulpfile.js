@@ -8,6 +8,7 @@ const notify = require('gulp-notify');
 const fileinclude = require('gulp-file-include');
 const htmlmin = require('gulp-htmlmin');
 const size = require('gulp-size');
+const pugs = require('gulp-pug');
 
 // удаление директории
 const clear = () => {
@@ -41,13 +42,27 @@ const html = () => {
     .pipe(browserSync.stream());
 }
 
+//  обработка pug
+const pug = () => {
+  return src('./src/pug/*.pug')
+    .pipe(plumber({
+      errorHandler: notify.onError(error =>({
+        title: 'Pug',
+        message: error.message
+      }))
+    }))
+    .pipe(pugs())
+    .pipe(dest('./public'))
+    .pipe(browserSync.stream());
+}
+
 // наблюдение
 const watcher = () => {
-  watch('./src/html/**/*.html', html);
+  watch('./src/pug/**/*.pug', pug);
 }
 
 // задачи
-exports.html = html;
+exports.pug = pug;
 exports.watch = watcher;
 exports.clear= clear;
 
