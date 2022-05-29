@@ -12,6 +12,7 @@ const pug = require('./task/pug');
 // const css = require('./task/css');
 const scss = require('./task/scss');
 const js = require('./task/js');
+const img = require('./task/img');
 
 // сервер
 const server = () => {
@@ -29,18 +30,20 @@ const watcher = () => {
   // watch(path.css.watch, css).on('all', browserSync.reload);
   watch(path.scss.watch, scss).on('all', browserSync.reload);
   watch(path.js.watch, js).on('all', browserSync.reload);
+  watch(path.img.watch, img).on('all', browserSync.reload);
 }
 
 // задачи
 exports.pug = pug;
 exports.scss = scss;
 exports.js = js;
+exports.img = img;
 
 // сборка
 exports.dev = series(
   clear,
   // parallel(html, css),
   // parallel(pug, css),
-  parallel(pug, scss, js),
+  parallel(pug, scss, js, img),
   parallel(watcher, server)
 );

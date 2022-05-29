@@ -1,4 +1,5 @@
 module.exports = {
   htmlmin: { collapseWhitespace: true },
-  webpack: { mode: 'development'}
+  webpack: { mode: 'development'},
+  imagemin: { verbose: true }
 }
