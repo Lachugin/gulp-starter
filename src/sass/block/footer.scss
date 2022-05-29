@@ -1,0 +1,15 @@
+.link {
+  color: rgb(128, 80, 173);
+}
+
+.logo {
+  background-color: bisque;
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+footer {
+  @include md {
+    background-color: rgb(40, 69, 45);
+  }
+}

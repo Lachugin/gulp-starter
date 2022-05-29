@@ -1,0 +1,21 @@
+// var
+$base-font-size: 22px;
+
+// mixin
+@mixin md {
+  @media (max-width: 700px) {
+    @content;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-size: $base-font-size;
+}
+
+// @import 'block/*.scss';  all
+@import 'block/header.scss';
+@import 'block/footer.scss';
