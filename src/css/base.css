@@ -1,0 +1,10 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 22px;
+}
+
+@import 'block/header.css';
+@import 'block/footer.css';

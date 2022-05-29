@@ -1,74 +1,40 @@
-const { src, dest, watch, series, parallel } = require('gulp');
+const { watch, series, parallel } = require('gulp');
 const browserSync = require('browser-sync').create();
-const del = require('del');
 
-// плагины
-const plumber = require('gulp-plumber');
-const notify = require('gulp-notify');
-const fileinclude = require('gulp-file-include');
-const htmlmin = require('gulp-htmlmin');
-const size = require('gulp-size');
-const pugs = require('gulp-pug');
+// конфигурация 
+const path = require('./config/path');
 
-// удаление директории
-const clear = () => {
-  return del('./public');
-}
+// задачи
+const clear = require('./task/clear');
+const pug = require('./task/pug');
+// const html = require('./task/html');
+const css = require('./task/css');
 
 // сервер
 const server = () => {
   browserSync.init({
     server: {
-        baseDir: "./public"
+        baseDir: path.root
     }
 });
 }
 
-
-//  обработка HTML
-const html = () => {
-  return src('./src/html/*.html')
-    .pipe(plumber({
-      errorHandler: notify.onError(error =>({
-        title: 'HTML',
-        message: error.message
-      }))
-    }))
-    .pipe(fileinclude())
-    .pipe(size({title: 'До сжатия'}))
-    .pipe(htmlmin( { collapseWhitespace: true } ))
-    .pipe(size({title: 'После сжатия'}))
-    .pipe(dest('./public'))
-    .pipe(browserSync.stream());
-}
-
-//  обработка pug
-const pug = () => {
-  return src('./src/pug/*.pug')
-    .pipe(plumber({
-      errorHandler: notify.onError(error =>({
-        title: 'Pug',
-        message: error.message
-      }))
-    }))
-    .pipe(pugs())
-    .pipe(dest('./public'))
-    .pipe(browserSync.stream());
-}
-
 // наблюдение
 const watcher = () => {
-  watch('./src/pug/**/*.pug', pug);
+  watch(path.pug.watch, pug).on('all', browserSync.reload);
+  watch(path.css.watch, css).on('all', browserSync.reload);
 }
 
 // задачи
 exports.pug = pug;
+exports.css = css;
 exports.watch = watcher;
 exports.clear= clear;
 
 // сборка
 exports.dev = series(
   clear,
-  html,
+  // html,
+  parallel(pug, css),
   parallel(watcher, server)
 );
