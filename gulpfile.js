@@ -1,4 +1,4 @@
-const { src, dest } = require('gulp');
+const { src, dest, watch, series, parallel } = require('gulp');
 
 // плагины
 const fileinclude = require('gulp-file-include');
@@ -16,5 +16,17 @@ const html = () => {
     .pipe(dest('./public'));
 }
 
+// наблюдение
+const watcher = () => {
+  watch('./src/html/**/*.html', html);
+}
+
 // задачи
-exports.html = html
+exports.html = html;
+exports.watch = watcher;
+
+// сборка
+exports.dev = series(
+  html,
+  watcher
+);
