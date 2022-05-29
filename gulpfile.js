@@ -1,9 +1,19 @@
 const { src, dest, watch, series, parallel } = require('gulp');
+const browserSync = require('browser-sync').create();
 
 // плагины
 const fileinclude = require('gulp-file-include');
 const htmlmin = require('gulp-htmlmin');
 const size = require('gulp-size');
+
+// сервер
+const server = () => {
+  browserSync.init({
+    server: {
+        baseDir: "./public"
+    }
+});
+}
 
 
 //  обработка HTML
@@ -13,7 +23,8 @@ const html = () => {
     .pipe(size({title: 'До сжатия'}))
     .pipe(htmlmin( { collapseWhitespace: true } ))
     .pipe(size({title: 'После сжатия'}))
-    .pipe(dest('./public'));
+    .pipe(dest('./public'))
+    .pipe(browserSync.stream());
 }
 
 // наблюдение
@@ -28,5 +39,5 @@ exports.watch = watcher;
 // сборка
 exports.dev = series(
   html,
-  watcher
+  parallel(watcher, server)
 );
