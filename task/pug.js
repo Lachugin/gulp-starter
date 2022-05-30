@@ -2,6 +2,7 @@ const { src, dest } = require('gulp');
 
 // конфигурация 
 const path = require('../config/path');
+const app = require('../config/app');
 
 
 // плагины
@@ -20,7 +21,7 @@ const pug = () => {
         message: error.message
       }))
     }))
-    .pipe(pugs())
+    .pipe(pugs(app.pug.pretty))
     .pipe(webpHtml())
     .pipe(dest(path.pug.dest));
 }

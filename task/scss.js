@@ -2,6 +2,7 @@ const { src, dest } = require('gulp');
 
 // конфигурация 
 const path = require('../config/path');
+const app = require('../config/app');
 
 
 // плагины
@@ -20,7 +21,7 @@ const webpCss = require('gulp-webp-css');
 
 //  обработка scss
 const scss = () => {
-  return src(path.scss.src, {sourcemaps: true})
+  return src(path.scss.src, {sourcemaps: app.isDev})
     .pipe(plumber({
       errorHandler: notify.onError(error =>({
         title: 'scss',
@@ -34,11 +35,11 @@ const scss = () => {
     .pipe(shorthand())
     .pipe(gcmq())
     .pipe(size({title: 'До сжатия css'}))
-    .pipe(dest(path.scss.dest, {sourcemaps: true}))
+    .pipe(dest(path.scss.dest, {sourcemaps: app.isDev}))
     .pipe(rename({ suffix: '.min' }))
     .pipe(csso())
     .pipe(size({title: 'После сжатия css.min'}))
-    .pipe(dest(path.scss.dest, {sourcemaps: true}));
+    .pipe(dest(path.scss.dest, {sourcemaps: app.isDev}));
 }
 
 module.exports = scss;
