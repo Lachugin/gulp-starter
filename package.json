@@ -37,6 +37,7 @@
     "gulp-cssimport": "^7.0.0",
     "gulp-csso": "^4.0.1",
     "gulp-file-include": "^2.3.0",
+    "gulp-fonter": "^0.3.0",
     "gulp-group-css-media-queries": "^1.2.2",
     "gulp-htmlmin": "^5.0.1",
     "gulp-imagemin": "^7.1.0",
@@ -49,6 +50,7 @@
     "gulp-sass-glob": "^1.1.0",
     "gulp-shorthand": "^1.1.0",
     "gulp-size": "^4.0.1",
+    "gulp-ttf2woff2": "^4.0.1",
     "gulp-uglify": "^3.0.2",
     "gulp-webp": "^4.0.1",
     "gulp-webp-css": "^1.1.0",
@@ -56,5 +58,8 @@
     "sass": "^1.52.1",
     "webpack": "^5.72.1",
     "webpack-stream": "^7.0.0"
+  },
+  "dependencies": {
+    "gulp-fonter-fix": "^0.0.1"
   }
 }
