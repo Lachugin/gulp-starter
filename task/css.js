@@ -2,6 +2,7 @@ const { src, dest } = require('gulp');
 
 // конфигурация 
 const path = require('../config/path');
+const app = require('../config/app');
 
 
 // плагины
@@ -18,9 +19,10 @@ const gcmq = require('gulp-group-css-media-queries');
 const webpCss = require('gulp-webp-css');
 
 
+
 //  обработка css
 const css = () => {
-  return src(path.css.src, {sourcemaps: true})
+  return src(path.css.src, {sourcemaps: app.isDev})
     .pipe(plumber({
       errorHandler: notify.onError(error =>({
         title: 'Css',
@@ -34,11 +36,11 @@ const css = () => {
     .pipe(shorthand())
     .pipe(gcmq())
     .pipe(size({title: 'До сжатия css'}))
-    .pipe(dest(path.css.dest, {sourcemaps: true}))
+    .pipe(dest(path.css.dest, {sourcemaps: app.isDev}))
     .pipe(rename({ suffix: '.min' }))
     .pipe(csso())
     .pipe(size({title: 'После сжатия css.min'}))
-    .pipe(dest(path.css.dest, {sourcemaps: true}));
+    .pipe(dest(path.css.dest, {sourcemaps: app.isDev}));
 }
 
 module.exports = css;
